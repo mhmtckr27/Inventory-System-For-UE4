@@ -42,4 +42,12 @@ public:
 	bool AddItem(TSubclassOf<AItemBase> ItemClass, int32 AmountToAdd, int32& RemainingAmount);
 	UFUNCTION(BlueprintCallable)
     bool GetSlotAtIndex(int32 SlotIndex, FItemData& ItemData, int32& Amount) const;
+	UFUNCTION(BlueprintCallable)
+	bool SwapSlots(int32 SlotIndex1, int32 SlotIndex2);
+	UFUNCTION(BlueprintCallable)
+	bool RemoveItemFromIndex(int32 SlotIndex, int32 AmountToRemove);
+	UFUNCTION(BlueprintCallable)
+	bool SplitStack(int32 SlotIndex, int32 AmountToSplit);
+	UFUNCTION(BlueprintCallable)
+	bool UseItemFromIndex(int32 SlotIndex);
 };

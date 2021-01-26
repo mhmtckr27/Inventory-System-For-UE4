@@ -20,5 +20,7 @@ class INVENTORYSYSTEMCPP_API AItemBase : public AActor
 	protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	public:	
+	public:
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnUse();
 };

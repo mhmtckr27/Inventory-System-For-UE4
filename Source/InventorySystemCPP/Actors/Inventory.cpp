@@ -41,6 +41,67 @@ bool AInventory::GetSlotAtIndex(const int32 SlotIndex, FItemData& ItemData, int3
 	return true;
 }
 
+bool AInventory::SwapSlots(const int32 SlotIndex1, const int32 SlotIndex2)
+{
+	if(IsSlotEmpty(SlotIndex1) && IsSlotEmpty(SlotIndex2))
+	{
+		return false;
+	}
+	FInventorySlot TempSlot;
+	TempSlot.ItemClass = Slots[SlotIndex1]->ItemClass;
+	TempSlot.Amount = Slots[SlotIndex1]->Amount;
+
+	UpdateSlot(SlotIndex1, Slots[SlotIndex2]->ItemClass, Slots[SlotIndex2]->Amount);
+	UpdateSlot(SlotIndex2, TempSlot.ItemClass, TempSlot.Amount);
+	return true;
+}
+
+bool AInventory::RemoveItemFromIndex(const int32 SlotIndex, const int32 AmountToRemove)
+{
+	if(IsSlotEmpty(SlotIndex) || AmountToRemove < 1)
+	{
+		return false;
+	}
+	if(AmountToRemove >= Slots[SlotIndex]->Amount)
+	{
+		UpdateSlot(SlotIndex, nullptr, 0);
+	}
+	else
+	{
+		UpdateSlot(SlotIndex, Slots[SlotIndex]->ItemClass, Slots[SlotIndex]->Amount - AmountToRemove);
+	}
+	return true;
+}
+
+bool AInventory::SplitStack(const int32 SlotIndex, const int32 AmountToSplit)
+{
+	int32 EmptySlotIndex;
+	if(IsSlotEmpty(SlotIndex) || !Slots[SlotIndex]->ItemClass.GetDefaultObject()->ItemData.bCanBeStacked || !EmptySlotExists(EmptySlotIndex) || AmountToSplit >= Slots[SlotIndex]->Amount || !RemoveItemFromIndex(SlotIndex, AmountToSplit))
+	{
+		return false;
+	}
+	const TSubclassOf<AItemBase> ItemClass = Slots[SlotIndex]->ItemClass;
+	UpdateSlot(EmptySlotIndex, ItemClass, AmountToSplit);
+	return true;
+}
+
+bool AInventory::UseItemFromIndex(const int32 SlotIndex)
+{
+	if(IsSlotEmpty(SlotIndex) || !Slots[SlotIndex]->ItemClass.GetDefaultObject()->ItemData.bCanBeUsed)
+	{
+		return false;
+	}
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	AItemBase* ItemToUse = GetWorld()->SpawnActor<AItemBase>(Slots[SlotIndex]->ItemClass, SpawnParameters);
+	if(RemoveItemFromIndex(SlotIndex, 1))
+	{
+		ItemToUse->OnUse();
+		return true;
+	}
+	return false;
+}
+
 bool AInventory::EmptySlotExists(int32& SlotIndex) const
 {
 	for (int32 i = 0; i < Slots.Num(); i++)
@@ -54,7 +115,7 @@ bool AInventory::EmptySlotExists(int32& SlotIndex) const
 	return false;
 }
 
-bool AInventory::NotFullStackExists(TSubclassOf<AItemBase> ItemClass, int32& SlotIndex) const
+bool AInventory::NotFullStackExists(const TSubclassOf<AItemBase> ItemClass, int32& SlotIndex) const
 {
 	for(int32 i = 0; i < Slots.Num(); i++)
 	{

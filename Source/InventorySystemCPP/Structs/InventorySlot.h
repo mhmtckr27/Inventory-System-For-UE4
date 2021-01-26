@@ -13,5 +13,5 @@ public:
 	FInventorySlot();
 
 	TSubclassOf<AItemBase> ItemClass;
-	uint32 Amount;
+	int32 Amount;
 };

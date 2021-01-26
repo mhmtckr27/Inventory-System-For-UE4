@@ -3,7 +3,6 @@
 #include "Inventory.h"
 #include "Components/SphereComponent.h"
 #include "InventorySystemCPP/InventorySystemCPPCharacter.h"
-#include 
 
 // Sets default values
 APickup::APickup()

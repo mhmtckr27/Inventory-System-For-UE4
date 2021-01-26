@@ -33,15 +33,15 @@
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/ItemData.cpp" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/ItemData.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/InventorySlot.cpp" />
-      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/ItemBase.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/ItemBase.cpp" />
-      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/InventorySlot.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/InventorySystemCPPCharacter.cpp" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Pickup.h" />
-      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Inventory.h" />
-      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Inventory.cpp" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/InventorySystemCPPCharacter.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Pickup.cpp" />
+      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/InventorySlot.h" />
+      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Inventory.h" />
+      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/ItemBase.h" />
+      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Inventory.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1nW0fv8obRkj6quRpW0TEmL6yPc" />
@@ -284,6 +284,7 @@
       <workItem from="1611586546294" duration="639000" />
       <workItem from="1611608849407" duration="872000" />
       <workItem from="1611627984370" duration="686000" />
+      <workItem from="1611665586047" duration="4739000" />
     </task>
     <servers />
   </component>
