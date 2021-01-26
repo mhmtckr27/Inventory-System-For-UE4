@@ -19,8 +19,12 @@
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/CoreUObject/Public/UObject/Object.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/CoreUObject/Public/UObject/SparseDelegate.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/UMG/Private/WidgetBlueprintLibrary.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/Slate/Public/Widgets/Layout/SScrollBox.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/UMG/Public/Blueprint/WidgetBlueprintLibrary.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/UMG/Private/Components/ScrollBox.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/Slate/Private/Widgets/Layout/SScrollBox.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/Engine/Classes/Components/ChildActorComponent.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/UMG/Public/Components/ScrollBox.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -284,7 +288,7 @@
       <workItem from="1611586546294" duration="639000" />
       <workItem from="1611608849407" duration="872000" />
       <workItem from="1611627984370" duration="686000" />
-      <workItem from="1611665586047" duration="4739000" />
+      <workItem from="1611665586047" duration="6402000" />
     </task>
     <servers />
   </component>
