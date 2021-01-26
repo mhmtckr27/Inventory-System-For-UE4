@@ -102,6 +102,51 @@ bool AInventory::UseItemFromIndex(const int32 SlotIndex)
 	return false;
 }
 
+bool AInventory::CombineStacks(const int32 FromIndex, const int32 ToIndex)
+{
+	if(Slots[ToIndex]->Amount + Slots[FromIndex]->Amount > MaxStackSize)
+	{
+		const int32 RemainingAmount = Slots[ToIndex]->Amount + Slots[FromIndex]->Amount - MaxStackSize;
+		UpdateSlot(ToIndex, Slots[ToIndex]->ItemClass, MaxStackSize);
+		UpdateSlot(FromIndex, Slots[FromIndex]->ItemClass, RemainingAmount);
+	}
+	else
+	{
+		UpdateSlot(ToIndex, Slots[ToIndex]->ItemClass, Slots[ToIndex]->Amount + Slots[FromIndex]->Amount);
+		UpdateSlot(FromIndex, nullptr, 0);
+	}
+	return true;
+}
+
+bool AInventory::HandleDragDropOperation(const int32 FromIndex, const int32 ToIndex)
+{
+	//if item types are not same OR second slot is empty, move first slot to second slot.
+	if(Slots[FromIndex]->ItemClass != Slots[ToIndex]->ItemClass)
+	{
+		SwapSlots(FromIndex, ToIndex);
+	}
+	//items are not stackable, no need to do anything
+	else if(!Slots[ToIndex]->ItemClass.GetDefaultObject()->ItemData.bCanBeStacked)
+	{
+		return false;
+	}
+	//if item types are same AND they are stackable, but one of the slots is full, swap slots.
+	else if(Slots[FromIndex]->Amount == MaxStackSize || Slots[ToIndex]->Amount == MaxStackSize)
+	{
+		SwapSlots(FromIndex, ToIndex);
+	}
+	//if item types are same AND they are stackable, but both slots are full, no need to do anything
+	else if(Slots[FromIndex]->Amount == MaxStackSize && Slots[ToIndex]->Amount == MaxStackSize)
+	{
+		return false;
+	}
+	else
+	{
+		CombineStacks(FromIndex, ToIndex);
+	}
+	return true;
+}
+
 bool AInventory::EmptySlotExists(int32& SlotIndex) const
 {
 	for (int32 i = 0; i < Slots.Num(); i++)

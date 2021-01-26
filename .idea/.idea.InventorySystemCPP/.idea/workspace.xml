@@ -43,8 +43,8 @@
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/InventorySystemCPPCharacter.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Pickup.cpp" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/InventorySlot.h" />
-      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Inventory.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/ItemBase.h" />
+      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Inventory.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Inventory.cpp" />
     </changedPaths>
   </component>
@@ -288,7 +288,7 @@
       <workItem from="1611586546294" duration="639000" />
       <workItem from="1611608849407" duration="872000" />
       <workItem from="1611627984370" duration="686000" />
-      <workItem from="1611665586047" duration="6752000" />
+      <workItem from="1611665586047" duration="8847000" />
     </task>
     <servers />
   </component>
