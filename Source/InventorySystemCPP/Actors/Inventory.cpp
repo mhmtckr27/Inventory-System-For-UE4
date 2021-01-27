@@ -118,8 +118,47 @@ bool AInventory::CombineStacks(const int32 FromIndex, const int32 ToIndex)
 	return true;
 }
 
-bool AInventory::HandleDragDropOperation(const int32 FromIndex, const int32 ToIndex)
+//trys to split 1 item from stack to provided slot.
+bool AInventory::SplitStackToIndex(const int32 FromIndex, const int32 ToIndex)
 {
+	if(Slots[FromIndex]->Amount > 1)
+	{
+		if(IsSlotEmpty(ToIndex))
+		{
+			UpdateSlot(FromIndex, Slots[FromIndex]->ItemClass, Slots[FromIndex]->Amount - 1);
+			UpdateSlot(ToIndex, Slots[FromIndex]->ItemClass, 1);
+		}
+		else if(Slots[FromIndex]->ItemClass == Slots[ToIndex]->ItemClass)
+		{
+			if(Slots[ToIndex]->Amount < MaxStackSize)
+			{
+				UpdateSlot(FromIndex, Slots[FromIndex]->ItemClass, Slots[FromIndex]->Amount - 1);
+				UpdateSlot(ToIndex, Slots[ToIndex]->ItemClass, Slots[ToIndex]->Amount + 1);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
+	return true;
+}
+
+bool AInventory::HandleDragDropOperation(const int32 FromIndex, const int32 ToIndex, const bool bIsSplitButtonDown)
+{
+	//if splitting stack is intended with holding the split button down (default is left shift)
+	if(bIsSplitButtonDown && Slots[FromIndex]->ItemClass.GetDefaultObject()->ItemData.bCanBeStacked)
+	{
+		return SplitStackToIndex(FromIndex, ToIndex);
+	}
 	//if item types are not same OR second slot is empty, move first slot to second slot.
 	if(Slots[FromIndex]->ItemClass != Slots[ToIndex]->ItemClass)
 	{

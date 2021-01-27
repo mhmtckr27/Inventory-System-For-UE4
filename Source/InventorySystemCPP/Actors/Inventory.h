@@ -52,6 +52,7 @@ public:
 	bool UseItemFromIndex(int32 SlotIndex);
 	UFUNCTION(BlueprintCallable)
 	bool CombineStacks(int32 FromIndex, int32 ToIndex);
+	bool SplitStackToIndex(int32 FromIndex, int32 ToIndex);
 	UFUNCTION(BlueprintCallable)
-	bool HandleDragDropOperation(int32 FromIndex, int32 ToIndex);
+	bool HandleDragDropOperation(const int32 FromIndex, const int32 ToIndex, const bool bIsSplitButtonDown);
 };
