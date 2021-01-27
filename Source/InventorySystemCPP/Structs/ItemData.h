@@ -31,4 +31,10 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bCanBeStacked;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Weight;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Value;
 };

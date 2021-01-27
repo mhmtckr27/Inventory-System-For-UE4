@@ -16,6 +16,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/Core/Public/HAL/Platform.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/ucrt/corecrt_math.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/CoreUObject/Public/UObject/Object.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/CoreUObject/Public/UObject/SparseDelegate.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/UMG/Private/WidgetBlueprintLibrary.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -34,8 +35,6 @@
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Enums/ItemCategory.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Enums/ItemCategory.cpp" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/FItemData.h" />
-      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/ItemData.cpp" />
-      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/ItemData.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/InventorySlot.cpp" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/ItemBase.cpp" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/InventorySystemCPPCharacter.cpp" />
@@ -46,6 +45,8 @@
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/ItemBase.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Inventory.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Inventory.cpp" />
+      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/ItemData.h" />
+      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/ItemData.cpp" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1nW0fv8obRkj6quRpW0TEmL6yPc" />
@@ -288,7 +289,8 @@
       <workItem from="1611586546294" duration="639000" />
       <workItem from="1611608849407" duration="872000" />
       <workItem from="1611627984370" duration="686000" />
-      <workItem from="1611665586047" duration="11099000" />
+      <workItem from="1611665586047" duration="11759000" />
+      <workItem from="1611751610363" duration="1710000" />
     </task>
     <servers />
   </component>
