@@ -1,5 +1,6 @@
 ﻿#include "Inventory.h"
 #include "InventorySystemCPP/Structs/InventorySlot.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AInventory::AInventory()
@@ -51,8 +52,8 @@ bool AInventory::SwapSlots(const int32 SlotIndex1, const int32 SlotIndex2)
 	TempSlot.ItemClass = Slots[SlotIndex1]->ItemClass;
 	TempSlot.Amount = Slots[SlotIndex1]->Amount;
 
-	UpdateSlot(SlotIndex1, Slots[SlotIndex2]->ItemClass, Slots[SlotIndex2]->Amount);
-	UpdateSlot(SlotIndex2, TempSlot.ItemClass, TempSlot.Amount);
+	UpdateSlot(SlotIndex1, Slots[SlotIndex2]->ItemClass, Slots[SlotIndex2]->Amount, 0);
+	UpdateSlot(SlotIndex2, TempSlot.ItemClass, TempSlot.Amount, 0);
 	return true;
 }
 
@@ -64,11 +65,13 @@ bool AInventory::RemoveItemFromIndex(const int32 SlotIndex, const int32 AmountTo
 	}
 	if(AmountToRemove >= Slots[SlotIndex]->Amount)
 	{
-		UpdateSlot(SlotIndex, nullptr, 0);
+		UpdateSlot(SlotIndex, nullptr, 0, -Slots[SlotIndex]->Amount * Slots[SlotIndex]->ItemClass.GetDefaultObject()->ItemData.Weight);
+		OnWeightChanged();
 	}
 	else
 	{
-		UpdateSlot(SlotIndex, Slots[SlotIndex]->ItemClass, Slots[SlotIndex]->Amount - AmountToRemove);
+		UpdateSlot(SlotIndex, Slots[SlotIndex]->ItemClass, Slots[SlotIndex]->Amount - AmountToRemove, -AmountToRemove * Slots[SlotIndex]->ItemClass.GetDefaultObject()->ItemData.Weight);
+		OnWeightChanged();
 	}
 	return true;
 }
@@ -81,7 +84,7 @@ bool AInventory::SplitStack(const int32 SlotIndex, const int32 AmountToSplit)
 		return false;
 	}
 	const TSubclassOf<AItemBase> ItemClass = Slots[SlotIndex]->ItemClass;
-	UpdateSlot(EmptySlotIndex, ItemClass, AmountToSplit);
+	UpdateSlot(EmptySlotIndex, ItemClass, AmountToSplit, 0);
 	return true;
 }
 
@@ -107,13 +110,13 @@ bool AInventory::CombineStacks(const int32 FromIndex, const int32 ToIndex)
 	if(Slots[ToIndex]->Amount + Slots[FromIndex]->Amount > MaxStackSize)
 	{
 		const int32 RemainingAmount = Slots[ToIndex]->Amount + Slots[FromIndex]->Amount - MaxStackSize;
-		UpdateSlot(ToIndex, Slots[ToIndex]->ItemClass, MaxStackSize);
-		UpdateSlot(FromIndex, Slots[FromIndex]->ItemClass, RemainingAmount);
+		UpdateSlot(ToIndex, Slots[ToIndex]->ItemClass, MaxStackSize, 0 );
+		UpdateSlot(FromIndex, Slots[FromIndex]->ItemClass, RemainingAmount, 0);
 	}
 	else
 	{
-		UpdateSlot(ToIndex, Slots[ToIndex]->ItemClass, Slots[ToIndex]->Amount + Slots[FromIndex]->Amount);
-		UpdateSlot(FromIndex, nullptr, 0);
+		UpdateSlot(ToIndex, Slots[ToIndex]->ItemClass, Slots[ToIndex]->Amount + Slots[FromIndex]->Amount, 0);
+		UpdateSlot(FromIndex, nullptr, 0, 0);
 	}
 	return true;
 }
@@ -125,15 +128,15 @@ bool AInventory::SplitStackToIndex(const int32 FromIndex, const int32 ToIndex)
 	{
 		if(IsSlotEmpty(ToIndex))
 		{
-			UpdateSlot(FromIndex, Slots[FromIndex]->ItemClass, Slots[FromIndex]->Amount - 1);
-			UpdateSlot(ToIndex, Slots[FromIndex]->ItemClass, 1);
+			UpdateSlot(FromIndex, Slots[FromIndex]->ItemClass, Slots[FromIndex]->Amount - 1, 0);
+			UpdateSlot(ToIndex, Slots[FromIndex]->ItemClass, 1, 0);
 		}
 		else if(Slots[FromIndex]->ItemClass == Slots[ToIndex]->ItemClass)
 		{
 			if(Slots[ToIndex]->Amount < MaxStackSize)
 			{
-				UpdateSlot(FromIndex, Slots[FromIndex]->ItemClass, Slots[FromIndex]->Amount - 1);
-				UpdateSlot(ToIndex, Slots[ToIndex]->ItemClass, Slots[ToIndex]->Amount + 1);
+				UpdateSlot(FromIndex, Slots[FromIndex]->ItemClass, Slots[FromIndex]->Amount - 1, 0);
+				UpdateSlot(ToIndex, Slots[ToIndex]->ItemClass, Slots[ToIndex]->Amount + 1, 0);
 			}
 			else
 			{
@@ -215,16 +218,17 @@ bool AInventory::NotFullStackExists(const TSubclassOf<AItemBase> ItemClass, int3
 	return false;
 }
 
-void AInventory::UpdateSlot(const int32 SlotIndex, const TSubclassOf<AItemBase> ItemClass, const int32 Amount)
+void AInventory::UpdateSlot(const int32 SlotIndex, const TSubclassOf<AItemBase> ItemClass, const int32 Amount, const float WeightChange)
 {
 	Slots[SlotIndex]->ItemClass = ItemClass;
 	Slots[SlotIndex]->Amount = Amount;
+	CurrentCarryWeight += WeightChange;
 	OnUpdateSlotAtIndex(SlotIndex);
+	OnWeightChanged();
 }
 
 bool AInventory::AddItem_Implementation(const TSubclassOf<AItemBase> ItemClass, const int32 AmountToAdd, int32& RemainingAmount)
 {
-	UE_LOG(LogTemp, Warning, TEXT("base"));
 	return AddItem_Internal(ItemClass, AmountToAdd, RemainingAmount);
 }
 
@@ -236,6 +240,14 @@ bool AInventory::AddItem_Internal(const TSubclassOf<AItemBase> ItemClass, const 
 	//if item can be stacked
 	if(LocalItemClass.GetDefaultObject()->ItemData.bCanBeStacked)
 	{
+		if(CurrentCarryWeight + LocalAmountToAdd * LocalItemClass.GetDefaultObject()->ItemData.Weight > MaxCarryWeight)
+		{
+			LocalAmountToAdd = UKismetMathLibrary::FFloor((MaxCarryWeight - CurrentCarryWeight) / LocalItemClass.GetDefaultObject()->ItemData.Weight);
+		}
+		if(LocalAmountToAdd == 0)
+		{
+			return false;
+		}
 		//if there is a stack that is not full we will add to that slot
 		if(NotFullStackExists(LocalItemClass, LocalFoundIndex))
 		{
@@ -245,15 +257,16 @@ bool AInventory::AddItem_Internal(const TSubclassOf<AItemBase> ItemClass, const 
 			if(LocalTotalAmount > MaxStackSize)
 			{
 				LocalAmountToAdd = LocalTotalAmount - MaxStackSize;
-				UpdateSlot(LocalFoundIndex, LocalItemClass, MaxStackSize);
+				RemainingAmount = AmountToAdd - LocalAmountToAdd;
+				UpdateSlot(LocalFoundIndex, LocalItemClass, MaxStackSize, (MaxStackSize - GetAmountAtIndex(LocalFoundIndex)) * LocalItemClass.GetDefaultObject()->ItemData.Weight);
 				AddItem_Internal(LocalItemClass, LocalAmountToAdd, RemainingAmount);
 				return true;
 			}
 			//if slot can fit the amount we want to add, add to that slot and return.
 			else
 			{
-				UpdateSlot(LocalFoundIndex, LocalItemClass, LocalTotalAmount);
-				RemainingAmount = 0;
+				UpdateSlot(LocalFoundIndex, LocalItemClass, LocalTotalAmount, LocalAmountToAdd * LocalItemClass.GetDefaultObject()->ItemData.Weight);
+				RemainingAmount = AmountToAdd - LocalAmountToAdd;
 				return true;
 			}
 		}
@@ -267,15 +280,16 @@ bool AInventory::AddItem_Internal(const TSubclassOf<AItemBase> ItemClass, const 
 				//then search another empty slot.
 				if(LocalAmountToAdd > MaxStackSize)
 				{
-					UpdateSlot(LocalFoundIndex, LocalItemClass, MaxStackSize);
+					RemainingAmount = LocalAmountToAdd - MaxStackSize;
+					UpdateSlot(LocalFoundIndex, LocalItemClass, MaxStackSize, MaxStackSize * LocalItemClass.GetDefaultObject()->ItemData.Weight);
 					AddItem_Internal(LocalItemClass, LocalAmountToAdd - MaxStackSize, RemainingAmount);
 					return true;
 				}
 				//if slot can fit the amount we want to add, add to that slot and return.
 				else
 				{
-					UpdateSlot(LocalFoundIndex, LocalItemClass, LocalAmountToAdd);
-					RemainingAmount = 0;
+					UpdateSlot(LocalFoundIndex, LocalItemClass, LocalAmountToAdd, LocalAmountToAdd * LocalItemClass.GetDefaultObject()->ItemData.Weight);
+					RemainingAmount = AmountToAdd - LocalAmountToAdd;
 					return true;
 				}
 			}
@@ -293,8 +307,13 @@ bool AInventory::AddItem_Internal(const TSubclassOf<AItemBase> ItemClass, const 
 		//if there is an empty slot
 		if(EmptySlotExists(LocalFoundIndex))
 		{
-			UpdateSlot(LocalFoundIndex, LocalItemClass, 1);
+			if(CurrentCarryWeight + LocalItemClass.GetDefaultObject()->ItemData.Weight > MaxCarryWeight)
+			{
+				return false;
+			}
+			UpdateSlot(LocalFoundIndex, LocalItemClass, 1, LocalItemClass.GetDefaultObject()->ItemData.Weight);
 			LocalAmountToAdd--;
+			RemainingAmount = LocalAmountToAdd;
 			//if there are still item(s) to add
 			if(LocalAmountToAdd > 0)
 			{

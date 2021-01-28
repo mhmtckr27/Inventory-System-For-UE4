@@ -27,12 +27,14 @@ protected:
 	int32 SlotCount;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Slots")
 	int32 MaxStackSize;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
+	float MaxCarryWeight;
 
 	int32 GetAmountAtIndex(const int32 SlotIndex) const;
 	bool IsSlotEmpty(int32 SlotIndex) const;
 	bool EmptySlotExists(int32& SlotIndex) const;
 	bool NotFullStackExists(TSubclassOf<AItemBase> ItemClass, int32& SlotIndex) const;
-	void UpdateSlot(int32 SlotIndex, TSubclassOf<AItemBase> ItemClass, int32 Amount);
+	void UpdateSlot(int32 SlotIndex, TSubclassOf<AItemBase> ItemClass, int32 Amount, float WeightChange);
 	
 	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "OnUpdateSlotAtIndex"))
 	void OnUpdateSlotAtIndex(int32 SlotIndex);
@@ -59,4 +61,10 @@ public:
 protected:
 	UFUNCTION(BlueprintCallable)
 	bool AddItem_Internal(TSubclassOf<AItemBase> ItemClass, int32 AmountToAdd, int32& RemainingAmount);
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnWeightChanged();
+
+private:
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	float CurrentCarryWeight = 0.0f;
 };
