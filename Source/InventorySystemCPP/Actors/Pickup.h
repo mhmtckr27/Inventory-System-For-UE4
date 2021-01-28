@@ -30,4 +30,8 @@ class INVENTORYSYSTEMCPP_API APickup : public AActor
 	virtual void BeginPlay() override;
 	UFUNCTION()
 	void OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+
+	public:
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnPickup();
 };

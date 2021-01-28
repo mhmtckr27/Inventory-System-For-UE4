@@ -38,7 +38,7 @@ protected:
 	void OnUpdateSlotAtIndex(int32 SlotIndex);
 	
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent)
 	bool AddItem(TSubclassOf<AItemBase> ItemClass, int32 AmountToAdd, int32& RemainingAmount);
 	UFUNCTION(BlueprintCallable)
     bool GetSlotAtIndex(int32 SlotIndex, FItemData& ItemData, int32& Amount) const;
@@ -55,4 +55,8 @@ public:
 	bool SplitStackToIndex(int32 FromIndex, int32 ToIndex);
 	UFUNCTION(BlueprintCallable)
 	bool HandleDragDropOperation(const int32 FromIndex, const int32 ToIndex, const bool bIsSplitButtonDown);
+
+protected:
+	UFUNCTION(BlueprintCallable)
+	bool AddItem_Internal(TSubclassOf<AItemBase> ItemClass, int32 AmountToAdd, int32& RemainingAmount);
 };

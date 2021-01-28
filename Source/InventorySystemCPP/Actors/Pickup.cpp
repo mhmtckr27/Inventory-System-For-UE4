@@ -34,6 +34,7 @@ void APickup::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 	{
 		if(Player->Inventory->AddItem(ItemToAdd, AmountToAdd, AmountToAdd))
 		{
+			OnPickup();
 			if(AmountToAdd == 0)
 			{
 				Destroy();

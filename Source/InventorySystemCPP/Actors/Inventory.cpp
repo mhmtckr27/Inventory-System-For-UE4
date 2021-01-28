@@ -222,7 +222,13 @@ void AInventory::UpdateSlot(const int32 SlotIndex, const TSubclassOf<AItemBase> 
 	OnUpdateSlotAtIndex(SlotIndex);
 }
 
-bool AInventory::AddItem(const TSubclassOf<AItemBase> ItemClass, const int32 AmountToAdd, int32& RemainingAmount)
+bool AInventory::AddItem_Implementation(const TSubclassOf<AItemBase> ItemClass, const int32 AmountToAdd, int32& RemainingAmount)
+{
+	UE_LOG(LogTemp, Warning, TEXT("base"));
+	return AddItem_Internal(ItemClass, AmountToAdd, RemainingAmount);
+}
+
+bool AInventory::AddItem_Internal(const TSubclassOf<AItemBase> ItemClass, const int32 AmountToAdd, int32& RemainingAmount)
 {
 	int32 LocalFoundIndex;
 	int32 LocalAmountToAdd = AmountToAdd;
@@ -240,7 +246,7 @@ bool AInventory::AddItem(const TSubclassOf<AItemBase> ItemClass, const int32 Amo
 			{
 				LocalAmountToAdd = LocalTotalAmount - MaxStackSize;
 				UpdateSlot(LocalFoundIndex, LocalItemClass, MaxStackSize);
-				AddItem(LocalItemClass, LocalAmountToAdd, RemainingAmount);
+				AddItem_Internal(LocalItemClass, LocalAmountToAdd, RemainingAmount);
 				return true;
 			}
 			//if slot can fit the amount we want to add, add to that slot and return.
@@ -262,7 +268,7 @@ bool AInventory::AddItem(const TSubclassOf<AItemBase> ItemClass, const int32 Amo
 				if(LocalAmountToAdd > MaxStackSize)
 				{
 					UpdateSlot(LocalFoundIndex, LocalItemClass, MaxStackSize);
-					AddItem(LocalItemClass, LocalAmountToAdd - MaxStackSize, RemainingAmount);
+					AddItem_Internal(LocalItemClass, LocalAmountToAdd - MaxStackSize, RemainingAmount);
 					return true;
 				}
 				//if slot can fit the amount we want to add, add to that slot and return.
@@ -292,7 +298,7 @@ bool AInventory::AddItem(const TSubclassOf<AItemBase> ItemClass, const int32 Amo
 			//if there are still item(s) to add
 			if(LocalAmountToAdd > 0)
 			{
-				AddItem(LocalItemClass, LocalAmountToAdd, RemainingAmount);
+				AddItem_Internal(LocalItemClass, LocalAmountToAdd, RemainingAmount);
 				//since we added at least 1 item, we return true, instead of return AddItem,
 				//because we will show screen notifications.
 				return true;

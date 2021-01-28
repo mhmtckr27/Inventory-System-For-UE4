@@ -12,6 +12,8 @@ struct INVENTORYSYSTEMCPP_API FInventorySlot
 public:
 	FInventorySlot();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<AItemBase> ItemClass;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Amount;
 };
