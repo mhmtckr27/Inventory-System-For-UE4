@@ -337,3 +337,93 @@ bool AInventory::AddItem_Internal(const TSubclassOf<AItemBase> ItemClass, const 
 		}
 	}
 }
+
+void AInventory::SelectionSortSlotsBy(const int32 SortBy, const int32 Order)
+{
+	for (int32 i = 0; i < SlotCount - 1; i++)  
+	{  
+		// Find the minimum element in unsorted array  
+		int32 CurrentMin = i;  
+		for (int32 j = i + 1; j < SlotCount; j++)
+		{
+			if(IsSlotEmpty(j))
+			{
+				continue;
+			}
+			else if(IsSlotEmpty(i))
+			{
+				SwapSlots(i, j);
+				continue;
+			}
+			if(Order == 0)
+			{
+				switch (SortBy)
+				{
+					//sort by name
+					case 0:
+						if(Slots[j]->ItemClass.GetDefaultObject()->ItemData.Name.ToString() < Slots[CurrentMin]->ItemClass.GetDefaultObject()->ItemData.Name.ToString())
+						{
+							CurrentMin = j;  
+						}
+					break;
+				case 1:
+					if(Slots[j]->ItemClass.GetDefaultObject()->ItemData.Category.GetValue() < Slots[CurrentMin]->ItemClass.GetDefaultObject()->ItemData.Category.GetValue())
+					{
+						CurrentMin = j;  
+					}
+					break;
+				case 2:
+					if(Slots[j]->ItemClass.GetDefaultObject()->ItemData.Weight < Slots[CurrentMin]->ItemClass.GetDefaultObject()->ItemData.Weight)
+					{
+						CurrentMin = j;  
+					}
+					break;
+				case 3:
+					if(Slots[j]->ItemClass.GetDefaultObject()->ItemData.Value < Slots[CurrentMin]->ItemClass.GetDefaultObject()->ItemData.Value)
+					{
+						CurrentMin = j;  
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			else
+			{
+				switch (SortBy)
+				{
+					//sort by name
+					case 0:
+						if(Slots[j]->ItemClass.GetDefaultObject()->ItemData.Name.ToString() > Slots[CurrentMin]->ItemClass.GetDefaultObject()->ItemData.Name.ToString())
+						{
+							CurrentMin = j;  
+						}
+					break;
+				case 1:
+					if(Slots[j]->ItemClass.GetDefaultObject()->ItemData.Category.GetValue() > Slots[CurrentMin]->ItemClass.GetDefaultObject()->ItemData.Category.GetValue())
+					{
+						CurrentMin = j;  
+					}
+					break;
+				case 2:
+					if(Slots[j]->ItemClass.GetDefaultObject()->ItemData.Weight > Slots[CurrentMin]->ItemClass.GetDefaultObject()->ItemData.Weight)
+					{
+						CurrentMin = j;  
+					}
+					break;
+				case 3:
+					if(Slots[j]->ItemClass.GetDefaultObject()->ItemData.Value > Slots[CurrentMin]->ItemClass.GetDefaultObject()->ItemData.Value)
+					{
+						CurrentMin = j;  
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
+  
+		// Swap the found minimum element with the first element  
+		SwapSlots(CurrentMin, i);
+	}
+}

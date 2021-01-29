@@ -18,14 +18,18 @@
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/Core/Public/HAL/Platform.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/ucrt/corecrt_math.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/CoreUObject/Public/UObject/Object.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/CoreUObject/Public/UObject/SparseDelegate.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/Core/Public/Containers/EnumAsByte.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/Core/Public/Containers/Array.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/UMG/Private/WidgetBlueprintLibrary.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/Slate/Public/Widgets/Layout/SScrollBox.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/UMG/Public/Blueprint/WidgetBlueprintLibrary.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/UMG/Private/Components/ScrollBox.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/UMG/Public/Components/ScrollBox.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/Core/Public/Templates/Sorting.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/Core/Public/Algo/Sort.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/CoreUObject/Public/UObject/SparseDelegate.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/UMG/Public/Blueprint/WidgetBlueprintLibrary.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/Slate/Private/Widgets/Layout/SScrollBox.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/Engine/Classes/Components/ChildActorComponent.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../Programlar/Epic Games/UE_4.26/Engine/Source/Runtime/UMG/Public/Components/ScrollBox.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -44,8 +48,8 @@
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Pickup.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/ItemData.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Structs/InventorySlot.h" />
-      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Inventory.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Pickup.cpp" />
+      <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Inventory.h" />
       <option value="$PROJECT_DIR$/Source/InventorySystemCPP/Actors/Inventory.cpp" />
     </changedPaths>
   </component>
@@ -291,7 +295,7 @@
       <workItem from="1611627984370" duration="686000" />
       <workItem from="1611665586047" duration="11759000" />
       <workItem from="1611751610363" duration="1711000" />
-      <workItem from="1611835547810" duration="8877000" />
+      <workItem from="1611835547810" duration="14590000" />
     </task>
     <servers />
   </component>

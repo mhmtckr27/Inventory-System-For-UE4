@@ -63,6 +63,8 @@ protected:
 	bool AddItem_Internal(TSubclassOf<AItemBase> ItemClass, int32 AmountToAdd, int32& RemainingAmount);
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnWeightChanged();
+	UFUNCTION(BlueprintCallable)
+	void SelectionSortSlotsBy(const int32 SortBy, const int32 Order);
 
 private:
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
