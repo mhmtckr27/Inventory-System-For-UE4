@@ -1,4 +1,6 @@
 ﻿#include "Inventory.h"
+
+#include "GameFramework/Character.h"
 #include "InventorySystemCPP/Structs/InventorySlot.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -55,6 +57,26 @@ bool AInventory::SwapSlots(const int32 SlotIndex1, const int32 SlotIndex2)
 	UpdateSlot(SlotIndex1, Slots[SlotIndex2]->ItemClass, Slots[SlotIndex2]->Amount, 0);
 	UpdateSlot(SlotIndex2, TempSlot.ItemClass, TempSlot.Amount, 0);
 	return true;
+}
+
+bool AInventory::DropItemFromIndex(const int32 SlotIndex, const int32 AmountToDrop)
+{
+/*
+ *Collisiondan dolayi editor crash ?! 
+ *
+	FActorSpawnParameters SpawnParams;
+	//SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+	FVector Location = OwnerPlayerActor->GetActorLocation();
+	Location += OwnerPlayerActor->GetActorForwardVector() * 100;
+	UE_LOG(LogTemp,Warning, TEXT("%f, %f, %f"), Location.X, Location.Y, Location.Z);
+
+	
+	//GetWorld()->SpawnActor<APickup>(PickupBlueprintObject, Location, GetActorRotation(), SpawnParams);
+	GetWorld()->SpawnActor<APickup>(PickupBlueprintObject, Location, GetActorRotation(), SpawnParams);
+	//GetWorld()->SpawnActor<APickup>(PickupBlueprintObject, UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetActorLocation(), UGameplayStatics::GetPlayerCharacter(GetWorld(),0)->GetActorRotation(), SpawnParams);
+*/
+	return RemoveItemFromIndex(SlotIndex, AmountToDrop);
 }
 
 bool AInventory::RemoveItemFromIndex(const int32 SlotIndex, const int32 AmountToRemove)

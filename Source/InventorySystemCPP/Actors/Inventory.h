@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "ItemBase.h"
+#include "Pickup.h"
 #include "InventorySystemCPP/Structs/ItemData.h"
 #include "GameFramework/Actor.h"
 #include "InventorySystemCPP/Structs/InventorySlot.h"
@@ -29,6 +30,10 @@ protected:
 	int32 MaxStackSize;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory")
 	float MaxCarryWeight;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Pickups")
+	TSubclassOf<class APickup> PickupBlueprintObject;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Owner")
+	AActor* OwnerPlayerActor;
 
 	int32 GetAmountAtIndex(const int32 SlotIndex) const;
 	bool IsSlotEmpty(int32 SlotIndex) const;
@@ -48,6 +53,8 @@ public:
 	bool SwapSlots(int32 SlotIndex1, int32 SlotIndex2);
 	UFUNCTION(BlueprintCallable)
 	bool RemoveItemFromIndex(int32 SlotIndex, int32 AmountToRemove);
+	UFUNCTION(BlueprintCallable)
+	bool DropItemFromIndex(int32 SlotIndex, int32 AmountToDrop);
 	UFUNCTION(BlueprintCallable)
 	bool SplitStack(int32 SlotIndex, int32 AmountToSplit);
 	UFUNCTION(BlueprintCallable)
